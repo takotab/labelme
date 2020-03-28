@@ -105,7 +105,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.labelList.itemChanged.connect(self.labelItemChanged)
         self.labelList.itemDropped.connect(self.labelOrderChanged)
         self.shape_dock = QtWidgets.QDockWidget(
-            self.tr('Polygon Labels'),
+            self.tr('Alle Leidingstukken'),
             self
         )
         self.shape_dock.setObjectName('Labels')
@@ -121,7 +121,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.uniqLabelList.addItem(item)
                 rgb = self._get_rgb_by_label(label)
                 self.uniqLabelList.setItemLabel(item, label, rgb)
-        self.label_dock = QtWidgets.QDockWidget(self.tr(u'Label List'), self)
+        self.label_dock = QtWidgets.QDockWidget(self.tr(u'Type Leidingstukken'), self)
         self.label_dock.setObjectName(u'Label List')
         self.label_dock.setWidget(self.uniqLabelList)
 
@@ -266,11 +266,11 @@ class MainWindow(QtWidgets.QMainWindow):
         toggle_keep_prev_mode.setChecked(self._config['keep_prev'])
 
         createMode = action(
-            self.tr('Create Polygons'),
-            lambda: self.toggleDrawMode(False, createMode='polygon'),
-            shortcuts['create_polygon'],
+            self.tr('Create Leidingstuk'),
+            lambda: self.toggleDrawMode(False, createMode='line'),
+            shortcuts['create_line'],
             'objects',
-            self.tr('Start drawing polygons'),
+            self.tr('Start drawing Leidingstukken'),
             enabled=False,
         )
         createRectangleMode = action(
@@ -295,7 +295,7 @@ class MainWindow(QtWidgets.QMainWindow):
             shortcuts['create_line'],
             'objects',
             self.tr('Start drawing lines'),
-            enabled=False,
+            enabled=True,
         )
         createPointMode = action(
             self.tr('Create Point'),
@@ -313,17 +313,17 @@ class MainWindow(QtWidgets.QMainWindow):
             self.tr('Start drawing linestrip. Ctrl+LeftClick ends creation.'),
             enabled=False,
         )
-        editMode = action(self.tr('Edit Polygons'), self.setEditMode,
+        editMode = action(self.tr('Edit Leidingstuk'), self.setEditMode,
                           shortcuts['edit_polygon'], 'edit',
-                          self.tr('Move and edit the selected polygons'),
+                          self.tr('Move and edit the selected Leidingstuk'),
                           enabled=False)
 
-        delete = action(self.tr('Delete Polygons'), self.deleteSelectedShape,
+        delete = action(self.tr('Delete Leidingstuk'), self.deleteSelectedShape,
                         shortcuts['delete_polygon'], 'cancel',
-                        self.tr('Delete the selected polygons'), enabled=False)
-        copy = action(self.tr('Duplicate Polygons'), self.copySelectedShape,
+                        self.tr('Delete the selected Leidingstuk'), enabled=False)
+        copy = action(self.tr('Duplicate Leidingstuk'), self.copySelectedShape,
                       shortcuts['duplicate_polygon'], 'copy',
-                      self.tr('Create a duplicate of the selected polygons'),
+                      self.tr('Create a duplicate of the selected Leidingstuk'),
                       enabled=False)
         undoLastPoint = action(self.tr('Undo last point'),
                                self.canvas.undoLastPoint,
@@ -885,7 +885,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def editLabel(self, item=None):
         if item and not isinstance(item, LabelListWidgetItem):
             raise TypeError('item must be LabelListWidgetItem type')
-
+        print(f"editLabel {item}")
         if not self.canvas.editing():
             return
         if not item:
@@ -912,9 +912,9 @@ class MainWindow(QtWidgets.QMainWindow):
         shape.flags = flags
         shape.group_id = group_id
         if shape.group_id is None:
-            item.setText(shape.label)
+            item.setText(str(shape))
         else:
-            item.setText('{} ({})'.format(shape.label, shape.group_id))
+            item.setText('{} ({})'.format(str(shape), shape.group_id))
         self.setDirty()
         if not self.uniqLabelList.findItemsByLabel(shape.label):
             item = QtWidgets.QListWidgetItem()
@@ -963,9 +963,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def addLabel(self, shape):
         if shape.group_id is None:
-            text = shape.label
+            text = str(shape)
         else:
-            text = '{} ({})'.format(shape.label, shape.group_id)
+            text = '{} ({})'.format(str(shape), shape.group_id)
         label_list_item = LabelListWidgetItem(text, shape)
         self.labelList.addItem(label_list_item)
         if not self.uniqLabelList.findItemsByLabel(shape.label):

@@ -39,7 +39,7 @@ class Shape(object):
 
     def __init__(self, label=None, line_color=None, shape_type=None,
                  flags=None, group_id=None):
-        self.label = label
+        self.label = label 
         self.group_id = group_id
         self.points = []
         self.fill = False
@@ -260,3 +260,14 @@ class Shape(object):
 
     def __setitem__(self, key, value):
         self.points[key] = value
+
+    def __str__(self):
+        print('__str__')
+        f = False
+        s_flags =  ' "('             
+        for key, v in self.flags.items():
+            if v:
+                s_flags += str(key) +' '
+        s_flags += ')'
+        return self.label if not f else self.label+s_flags
+
