@@ -1,0 +1,7 @@
+{"(HT) Hoog temperatuur":{
+    "Asfalt": 400, "Klinkers": 200, "Gecombineerd": 100, "Weide": 50}, 
+ "(MT) Laag/Midden temperatuur":
+ {"Asfalt": 300, "Klinkers": 150, "Gecombineerd": 100, "Weide": 30},
+ "(ZLT) Zeer laag temperatuur":
+ {"Asfalt": 250, "Klinkers": 150, "Gecombineerd": 100, "Weide": 20}
+}

@@ -1,0 +1,5 @@
+(HT) Hoog temperatuur
+(MT) Laag/Midden temperatuur
+(ZLT) Zeer laag temperatuur
+Productie locatie
+Afneem locatie
